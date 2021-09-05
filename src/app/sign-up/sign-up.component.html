@@ -1,0 +1,117 @@
+<ng-container *ngIf="!formSubmitted">
+    
+    <h2 class="title">Sign up for email updates </h2>
+    
+    <p class="message-field">*Indicates Required Field</p>
+    
+    <form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
+    
+        <div class="form-fields">
+    
+            <div class="field">
+    
+                <ng-container *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+        
+                    <div *ngIf="firstName.errors?.required" class="message-error">
+                        First name is required
+                    </div>
+                </ng-container>
+    
+                <label for="city">FIRST NAME* </label>
+                <input class="form-control" [ngClass]="{'input-validation':firstName.invalid && (firstName.dirty || firstName.touched)}" type="text" id="firstName" class="form-control" formControlName="firstName">
+        
+            </div>
+        
+            <div class="field">
+    
+                <ng-container *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+        
+                    <div *ngIf="lastName.errors?.required" class="message-error">
+                        Last name is required
+                    </div>
+                </ng-container>
+    
+                <label for="city">LAST NAME* </label>
+                <input class="form-control" [ngClass]="{'input-validation':lastName.invalid && (lastName.dirty || lastName.touched)}" type="text" id="lastName" class="form-control" formControlName="lastName">
+            </div>
+    
+        </div>
+    
+        <div class="form-fields">
+            <div class="field">
+        
+                <div *ngIf="email.invalid && (email.dirty || email.touched)">
+        
+                    <div *ngIf="email.errors?.required" class="message-error">
+                        Email address is required
+                    </div>
+                    <div *ngIf="email.errors?.email" class="message-error">
+                        Invalid email address
+                    </div>
+                </div>
+                <label for="city">EMAIL ADDRESS*</label>
+                <input class="form-control" [ngClass]="{'input-validation':email.invalid && (email.dirty || email.touched)}" type="email" id="email" class="form-control" formControlName="email">
+        
+            </div>
+            <div class="field">
+                
+                <label for="city">ORGANIZATION </label>
+                <input class="form-control" type="text" id="orgname" class="form-control" formControlName="orgname">
+        
+            </div>
+        </div>
+    
+        <div class="form-fields">
+            <div class="field w-select">
+        
+                <div *ngIf="euResident.invalid && (euResident.dirty || euResident.touched)"
+                    class="alert alert-danger">
+        
+                    <div *ngIf="euResident.errors?.required" class="message-error">
+                        EU Resident is required
+                    </div>
+                </div>
+                <label for="city">EU RESIDENT* </label>
+                <select name="euResident" id="euResident" class="form-control" formControlName="euResident">
+                    <option value="" disabled selected>- SELECT ONE -</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+        
+            </div>
+        </div>
+
+        <div class="form-fields chbx-container">
+            <ng-container *ngFor="let item of checks; let i=index">
+                <div class="field ">
+                
+                <label class="checkbox">
+                        <input type="checkbox" [value]="item.value" (change)="onCheckChange($event)"> {{item.description}}
+                </label>
+        
+                </div>
+            </ng-container>
+        </div>
+        
+        <div id="response" *ngIf="formErrors" class="message-error">
+            Please complete all required fields.
+            <br/>
+            You must select at least one option (Advances, Alerts or Other Communication)
+        </div>
+    
+        <div class="buttons">
+    
+            <button type="submit">SUBMIT</button>
+            <button type="reset" (click)="onReset()">RESET</button>
+        </div>
+    
+    </form>
+</ng-container>
+
+<div *ngIf="formSubmitted">
+    <h2>
+        {{response.message}}
+    </h2>
+
+    <button type="reset" (click)="back()">BACK</button>
+</div>
